@@ -49,9 +49,12 @@ jobs:
         run: python3 scripts/maoyan_presale.py
 
       - name: Commit data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "maoyan-bot"
           git config user.email "maoyan-bot@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/vshg245/maoyan-presale.git"
           git add maoyan_presale.csv
           git diff --cached --quiet || git commit -m "chore: update presale data $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M')"
           git push
