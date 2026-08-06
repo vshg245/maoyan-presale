@@ -20,8 +20,7 @@ BASE = "https://piaofang.maoyan.com"
 UA_IPHONE = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) "
              "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1")
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(HERE, "maoyan_presale.csv")
+CSV_PATH = os.path.join(os.getcwd(), "maoyan_presale.csv")
 
 
 def build_opener():
