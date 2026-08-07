@@ -11,7 +11,7 @@ import re
 import sys
 import urllib.request
 import http.cookiejar
-from datetime import datetime
+from datetime import datetime, timedelta
 
 MOVIE_ID = "1462628"
 MOVIE_NAME = "欢迎来龙餐馆"
@@ -74,7 +74,7 @@ def fetch_presale():
 
 
 def main():
-    now = datetime.now()
+    now = datetime.utcnow() + timedelta(hours=8)  # 北京时间
     try:
         total, point, first, detail = fetch_presale()
         line = {
