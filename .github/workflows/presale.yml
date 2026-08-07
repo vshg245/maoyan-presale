@@ -1,5 +1,6 @@
 name: Maoyan Presale Tracker
 
+# schedule v2
 on:
   schedule:
     # 每小时整点（北京时间 UTC+8）
