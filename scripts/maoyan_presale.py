@@ -63,7 +63,7 @@ def fetch_presale():
 
     point = sum(r["box"] for r in rows if r.get("releaseInfo") == "点映")
     first = sum(r["box"] for r in rows if str(r.get("showDate")) == RELEASE_DATE)
-    total = point + first
+    total = data["data"].get("sumBox") or sum(r.get("box", 0) for r in rows)
 
     detail = {}
     for r in rows:
