@@ -4,7 +4,7 @@ name: Maoyan Presale Tracker
 on:
   schedule:
     # 每小时整点（北京时间 UTC+8）
-    - cron: '0 * * * *'
+    - cron: '7 * * * *'
   workflow_dispatch:
 
 permissions:
