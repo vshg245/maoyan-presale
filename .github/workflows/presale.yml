@@ -13,7 +13,7 @@ permissions:
 
 concurrency:                # 👈 防止外部触发与兜底schedule撞车
   group: maoyan-presale-tracker
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 
 jobs:
