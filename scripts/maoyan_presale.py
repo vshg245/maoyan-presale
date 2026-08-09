@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -34,7 +35,7 @@ def get(opener, url, headers=None):
         return resp.read().decode("utf-8", errors="ignore")
 
 
-def fetch_presale():
+def fetch_presale(current_time):
     opener = build_opener()
     page_headers = {
         "User-Agent": UA_IPHONE,
@@ -65,18 +66,30 @@ def fetch_presale():
     first = sum(r["box"] for r in rows if str(r.get("showDate")) == RELEASE_DATE)
     total = data["data"].get("sumBox") or sum(r.get("box", 0) for r in rows)
 
+    # ✅ 计算今天/明天/后天的日期字符串集合
+    valid_dates = set()
+    for i in range(3):  # 0=今天, 1=明天, 2=后天
+        d = current_time + timedelta(days=i)
+        valid_dates.add(d.strftime("%Y%m%d"))
+
     detail = {}
     for r in rows:
         d = str(r.get("showDate"))
-        if r.get("box", 0) > 0 and d <= RELEASE_DATE:
-            detail[d] = {"票房(元)": r["box"], "场次": r.get("showCount"), "人次": r.get("viewCountDesc")}
+        box = r.get("box", 0)
+        # ✅ 仅保留今天/明天/后天且有票房的数据，键名仍为原始日期
+        if box > 0 and d in valid_dates:
+            detail[d] = {
+                "票房(元)": box,
+                "场次": r.get("showCount"),
+                "人次": r.get("viewCountDesc")
+            }
     return total, point, first, detail
 
 
 def main():
     now = datetime.utcnow() + timedelta(hours=8)  # 北京时间
     try:
-        total, point, first, detail = fetch_presale()
+        total, point, first, detail = fetch_presale(now)  # ✅ 传入 now
         line = {
             "时间": now.strftime("%Y-%m-%d %H:%M:%S"),
             "预售及点映总票房(元)": total,
